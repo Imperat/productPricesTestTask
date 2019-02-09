@@ -3,14 +3,18 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const initRedisClient = require('./redisClient');
 
+const SETTINGS_FILE_PATH = './config/settings.yaml';
+const PRODUCTFEEDS_FILE_PATH = './config/productfeeds.yaml';
+const CONFIGS_ENCODING = 'utf8';
+
 async function runService() {
   logger.info('Starting service');
 
   let settings;
   let productFeeds;
   try {
-    settings = yaml.safeLoad(fs.readFileSync('./settings.yaml', 'utf8'));
-    productFeeds = yaml.safeLoad(fs.readFileSync('./productfeeds.yaml', 'utf8'));
+    settings = yaml.safeLoad(fs.readFileSync(SETTINGS_FILE_PATH, CONFIGS_ENCODING));
+    productFeeds = yaml.safeLoad(fs.readFileSync(PRODUCTFEEDS_FILE_PATH, CONFIGS_ENCODING));
   } catch(e) {
     logger.error(e.message);
     logger.error('Cann\'t start service. Error by loading settings and productfeeds config');
