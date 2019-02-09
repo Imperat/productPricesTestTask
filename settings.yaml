@@ -1,0 +1,7 @@
+# Host address and port number for starting server
+host: 'localhost'
+port: 8080
+
+# Host address for redis server
+redisHost: 'localhost'
+redisPort: '6762'
