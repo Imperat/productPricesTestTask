@@ -1,8 +1,12 @@
 apodiscounter:
-  url: http://www.apodiscounter.de/partnerprogramme/krn.csv
-  type: csv
+  url: https://www.apodiscounter.de/partnerprogramme/krn.csv
+  format: csv
+  productIdColumnName: PZN
+  priceColumnName: Preis
 
 bodfeld:
   url: https://www.bodfeld-apotheke.de/kairion/itemfeed.txt
-  type: txt
+  format: txt
   separator: '    '
+  productIdColumnName: product_id
+  priceColumnName: price

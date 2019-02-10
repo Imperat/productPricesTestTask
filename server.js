@@ -12,10 +12,8 @@ function initServer(api, host, port) {
   });
 
   app.post('/', (req, res) => {
-    // api.refreshData();
+    api.refreshData();
   });
-
-
 
   return new Promise((resolve, reject) => {
     app.listen({ port, host }, () => {
