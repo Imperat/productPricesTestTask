@@ -74,6 +74,8 @@ currency label or sign - it'll be stored "as is".
 - If you want to update shops list via editing `./config/productfeeds.yaml` file, you need to restart server to apply
 new configuration. If you are going to remove shop from config, you also need to remove data from Redis.
 Currently there is no API for that.
+- Service don't have an ability to block new incoming POST requests while processing previous requests. It's recommended
+to send POSTS requests not often that once per five minutes.
 
 Developer Notes
 ---------------
