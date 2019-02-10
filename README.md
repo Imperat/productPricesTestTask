@@ -53,16 +53,27 @@ To update existing data you have to send POST HTTP request without any params. F
 
 `202 Accepted  { "ok": true, "info": "Importing process is started" }`
 
+Shops configuration
+-------------------
+You are able to configure list of shops to fetch in file `./config/productfeeds.yaml`. Service supports two input format:
+CSV and TXT. Please, look for an example to existing config and add your source if you want it. Please, have a note,
+that you need to describe name of columns with product_id and price. If you want to use txt input, you also need to
+put separator string. If you want to use csv file, values will be separated with semicolon by default.
+
+For other formats it's simple to put you own implementation in `./dataSources` directory and open PR :)
 
 Limitations
 -----------
 
 - Service will not be able to fetch existing data automatically after it will be started. If you run server with empty
 Redis cache, you need to send POST request via API to import data.
-- After you send POST request, you'll have response immediately. Because of process of importing data can take long time,
-service answers you with 202 status code and don't provide guarantee that process is finishing now.
+- After you send POST request, you'll have response immediately. Because of process of importing data
+can take long time, service answers you with 202 status code and don't provide guarantee that process is finishing now.
 - Service don't perform any parsing and validation of price column itself. If in input docs price is presented with
 currency label or sign - it'll be stored "as is".
+- If you want to update shops list via editing `./config/productfeeds.yaml` file, you need to restart server to apply
+new configuration. If you are going to remove shop from config, you also need to remove data from Redis.
+Currently there is no API for that.
 
 Developer Notes
 ---------------
