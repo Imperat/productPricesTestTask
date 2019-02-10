@@ -1,5 +1,7 @@
+const inputFormats = require('../declarations/inputFormats');
+
 function getSeparator(shopConfig) {
-  if (shopConfig.format === 'csv') {
+  if (shopConfig.format === inputFormats.CSV) {
     return ';';
   }
 

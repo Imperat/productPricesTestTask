@@ -1,9 +1,10 @@
 const logger = require('../logger');
 const newTXTDataSource = require('../dataSources/txtDataSource');
+const inputFormats = require('../declarations/inputFormats');
 
 const formatToDataSourceCreator = {
-  csv: newTXTDataSource,
-  txt: newTXTDataSource,
+  [inputFormats.CSV]: newTXTDataSource,
+  [inputFormats.TXT]: newTXTDataSource,
 };
 
 function newRefreshDataEndpoint(internalStorage, productFeedsConfig) {
