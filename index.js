@@ -3,6 +3,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const initRedisClient = require('./redisClient');
 const initServer = require('./server');
+const initApi = require('./api/index');
 
 const SETTINGS_FILE_PATH = './config/settings.yaml';
 const PRODUCTFEEDS_FILE_PATH = './config/productfeeds.yaml';
@@ -31,9 +32,11 @@ async function runService() {
     throw e;
   }
 
+  const api = initApi(redisClient, productFeeds);
+
   let server;
   try {
-    server = await initServer(settings.host, settings.port);
+    server = await initServer(api, settings.host, settings.port);
   } catch(e) {
     logger.error(e.message);
     logger.error(`Cann\' listen on ${settings.host}:${settings.port}`);

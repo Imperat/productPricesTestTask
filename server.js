@@ -1,18 +1,18 @@
 const express = require('express');
 const logger = require('./logger');
 
-function initServer(host, port) {
+function initServer(api, host, port) {
   if (!host || !port) {
     throw new Error(`Wrong config for http server ${host}:${port}`);
   }
   const app = express();
 
   app.get('/', (req, res) => {
-
+    // api.getProduct();
   });
 
   app.post('/', (req, res) => {
-
+    // api.refreshData();
   });
 
 

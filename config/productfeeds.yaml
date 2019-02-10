@@ -1,0 +1,8 @@
+apodiscounter:
+  url: http://www.apodiscounter.de/partnerprogramme/krn.csv
+  type: csv
+
+bodfeld:
+  url: https://www.bodfeld-apotheke.de/kairion/itemfeed.txt
+  type: txt
+  separator: '    '
