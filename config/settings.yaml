@@ -4,4 +4,4 @@ port: 8080
 
 # Host address for redis server
 redisHost: 'localhost'
-redisPort: '6762'
+redisPort: 6379
