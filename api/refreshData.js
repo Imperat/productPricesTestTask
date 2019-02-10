@@ -7,7 +7,7 @@ const formatToDataSourceCreator = {
   txt: newTXTDataSource,
 };
 
-function newRefreshDataEndpoint(redisClient, productFeedsConfig) {
+function newRefreshDataEndpoint(internalStorage, productFeedsConfig) {
   const refreshDataForShop = (shopName) => {
     const configs = productFeedsConfig[shopName];
     const dataSourceCreator = formatToDataSourceCreator[configs.format];
@@ -19,7 +19,7 @@ function newRefreshDataEndpoint(redisClient, productFeedsConfig) {
 
     const dataSource = dataSourceCreator({ shopName, ...configs });
     logger.info(`[API] Starting importing data for ${shopName}`);
-    return dataSource.import(redisClient);
+    return dataSource.import(internalStorage);
   };
 
   return () => {

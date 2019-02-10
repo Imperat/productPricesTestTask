@@ -27,7 +27,7 @@ function processHeader(line, shopConfig) {
   return header;
 }
 
-function newCSVDataConsumer(redisClient, shopConfig) {
+function newCSVDataConsumer(internalStorage, shopConfig) {
   let header;
   return {
     process(line) {
@@ -37,16 +37,20 @@ function newCSVDataConsumer(redisClient, shopConfig) {
       }
 
       const columns = line.split(SEPARATOR_FOR_CSV);
-      console.log(columns[header.priceColumnIndex], columns[header.productIdColumnIndex]);
+      internalStorage.process(
+        shopConfig.shopName,
+        columns[header.productIdColumnIndex],
+        Number(columns[header.priceColumnIndex]),
+      );
     },
   };
 }
 
 function newCSVDataSource(shopConfig) {
   return {
-    import(redisClient) {
+    import(internalStorage) {
       logger.info(`[CSVDataSource] request to ${shopConfig.url}`);
-      const csvDataConsumer = newCSVDataConsumer(redisClient, shopConfig);
+      const csvDataConsumer = newCSVDataConsumer(internalStorage, shopConfig);
       https.get(shopConfig.url, (response) => {
         response.setEncoding('utf8');
         logger.info(`[CSVDataSource] Response from ${shopConfig.url}. Status Code: ${response.statusCode}`);
@@ -55,6 +59,7 @@ function newCSVDataSource(shopConfig) {
         rl.on('line', line => csvDataConsumer.process(line));
         response.on('end', () => {
           rl.close();
+          internalStorage.commit();
           logger.info(`[CSVDataSource] Finishing importing data for ${shopConfig.url}`);
         });
       });

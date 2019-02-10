@@ -1,6 +1,6 @@
-function newGetProductEndpoint(redisClient) {
+function newGetProductEndpoint(internalStorage) {
   return (shop, productId) => {
-
+    return internalStorage.getProductPrice(shop, productId);
   };
 }
 

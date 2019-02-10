@@ -8,7 +8,7 @@ function initServer(api, host, port) {
   const app = express();
 
   app.get('/', (req, res) => {
-    // api.getProduct();
+    api.getProduct();
   });
 
   app.post('/', (req, res) => {
