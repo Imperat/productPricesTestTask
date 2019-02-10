@@ -7,6 +7,6 @@ apodiscounter:
 bodfeld:
   url: https://www.bodfeld-apotheke.de/kairion/itemfeed.txt
   format: txt
-  separator: '    '
-  productIdColumnName: product_id
+  separator: '	'
+  productIdColumnName: id
   priceColumnName: price

@@ -1,9 +1,8 @@
 const logger = require('../logger');
-const newCSVDataSource = require('../dataSources/csvDataSource');
 const newTXTDataSource = require('../dataSources/txtDataSource');
 
 const formatToDataSourceCreator = {
-  csv: newCSVDataSource,
+  csv: newTXTDataSource,
   txt: newTXTDataSource,
 };
 
