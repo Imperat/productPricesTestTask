@@ -32,13 +32,13 @@ function initServer(api, host, port) {
           .status(404)
           .send({
             error: 'Product Not Found',
-            reason: `There is no data for shop "${shopName}" and product "${productId}"`
+            reason: `There is no data for shop "${shopName}" and product "${productId}"`,
           });
       }
       return res.type('json')
         .status(200)
         .send({ [productId]: productPrice });
-    } catch(e) {
+    } catch (e) {
       return res.type('json')
         .status(500)
         .send({ error: 'Internal Server Error', reason: e.reason });
@@ -57,7 +57,7 @@ function initServer(api, host, port) {
       logger.info(`http server listening on ${host}:${port}`);
       return resolve();
     })
-      .on('error', (e) => reject(e));
+      .on('error', e => reject(e));
   });
 }
 

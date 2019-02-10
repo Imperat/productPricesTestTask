@@ -1,6 +1,7 @@
-const logger = require('./logger');
 const yaml = require('js-yaml');
 const fs = require('fs');
+
+const logger = require('./logger');
 const initRedisClient = require('./redisClient');
 const initServer = require('./server');
 const initApi = require('./api/index');
@@ -17,7 +18,7 @@ async function runService() {
   try {
     settings = yaml.safeLoad(fs.readFileSync(SETTINGS_FILE_PATH, CONFIGS_ENCODING));
     productFeeds = yaml.safeLoad(fs.readFileSync(PRODUCTFEEDS_FILE_PATH, CONFIGS_ENCODING));
-  } catch(e) {
+  } catch (e) {
     logger.error(e.message);
     logger.error('Cann\'t start service. Error by loading settings and productfeeds config');
     throw e;
@@ -26,7 +27,7 @@ async function runService() {
   let redisClient;
   try {
     redisClient = await initRedisClient(settings.redisHost, settings.redisPort);
-  } catch(e) {
+  } catch (e) {
     logger.error(e.message);
     logger.error('Cann\'t start service. Error by connection to redis server');
     throw e;
@@ -34,12 +35,11 @@ async function runService() {
 
   const api = initApi(redisClient, productFeeds);
 
-  let server;
   try {
-    server = await initServer(api, settings.host, settings.port);
-  } catch(e) {
+    await initServer(api, settings.host, settings.port);
+  } catch (e) {
     logger.error(e.message);
-    logger.error(`Cann\' listen on ${settings.host}:${settings.port}`);
+    logger.error(`Cann't listen on ${settings.host}:${settings.port}`);
     throw e;
   }
 }
@@ -49,4 +49,4 @@ runService()
   .catch((e) => {
     logger.info('Service stopped due to critical error', e);
     process.exit(1);
-});
+  });

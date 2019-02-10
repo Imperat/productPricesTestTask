@@ -1,7 +1,9 @@
+/* eslint no-continue: "off" */
+
 const https = require('https');
-const logger = require('../logger');
 const readline = require('readline');
 
+const logger = require('../logger');
 const getSeparator = require('../utils/separator');
 
 function processHeader(line, shopConfig, separator) {
@@ -59,7 +61,7 @@ function newTXTDataSource(shopConfig) {
 
         let lastProcessingLine = Promise.resolve();
         const rl = readline.createInterface({ input: response });
-        rl.on('line', line => {
+        rl.on('line', (line) => {
           lastProcessingLine = lastProcessingLine.then(txtDataConsumer.process(line));
         });
         response.on('end', async () => {
@@ -69,7 +71,7 @@ function newTXTDataSource(shopConfig) {
           logger.info(`[TXTDataSource] Finishing importing data for ${shopConfig.url}`);
         });
       });
-    }
+    },
   };
 }
 
