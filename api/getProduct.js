@@ -1,6 +1,9 @@
+const logger = require('../logger');
+
 function newGetProductEndpoint(internalStorage) {
-  return (shop, productId) => {
-    return internalStorage.getProductPrice(shop, productId);
+  return (shopName, productId) => {
+    logger.info(`[API] get product '${productId}' for shop '${shopName}'`);
+    return internalStorage.getProductPrice(shopName, productId);
   };
 }
 

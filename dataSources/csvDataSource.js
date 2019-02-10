@@ -40,7 +40,7 @@ function newCSVDataConsumer(internalStorage, shopConfig) {
       internalStorage.process(
         shopConfig.shopName,
         columns[header.productIdColumnIndex],
-        Number(columns[header.priceColumnIndex]),
+        columns[header.priceColumnIndex],
       );
     },
   };
@@ -55,11 +55,15 @@ function newCSVDataSource(shopConfig) {
         response.setEncoding('utf8');
         logger.info(`[CSVDataSource] Response from ${shopConfig.url}. Status Code: ${response.statusCode}`);
 
+        let lastProcessingLine = Promise.resolve();
         const rl = readline.createInterface({ input: response });
-        rl.on('line', line => csvDataConsumer.process(line));
-        response.on('end', () => {
+        rl.on('line', line => {
+          lastProcessingLine = lastProcessingLine.then(csvDataConsumer.process(line));
+        });
+        response.on('end', async () => {
           rl.close();
-          internalStorage.commit();
+          await lastProcessingLine;
+          await internalStorage.commit(shopConfig.shopName);
           logger.info(`[CSVDataSource] Finishing importing data for ${shopConfig.url}`);
         });
       });
