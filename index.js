@@ -2,6 +2,7 @@ const logger = require('./logger');
 const yaml = require('js-yaml');
 const fs = require('fs');
 const initRedisClient = require('./redisClient');
+const initServer = require('./server');
 
 const SETTINGS_FILE_PATH = './config/settings.yaml';
 const PRODUCTFEEDS_FILE_PATH = './config/productfeeds.yaml';
@@ -29,11 +30,20 @@ async function runService() {
     logger.error('Cann\'t start service. Error by connection to redis server');
     throw e;
   }
+
+  let server;
+  try {
+    server = await initServer(settings.host, settings.port);
+  } catch(e) {
+    logger.error(e.message);
+    logger.error(`Cann\' listen on ${settings.host}:${settings.port}`);
+    throw e;
+  }
 }
 
 runService()
   .then(() => logger.info('Service started'))
   .catch((e) => {
-    logger.info('Service stopped due to critical error');
+    logger.info('Service stopped due to critical error', e);
     process.exit(1);
 });
