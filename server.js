@@ -48,7 +48,7 @@ function initServer(api, host, port) {
   app.post('/', (req, res) => {
     api.refreshData();
     res.type('json')
-      .status(200)
+      .status(202)
       .send({ ok: true, info: 'Importing process is started' });
   });
 
